@@ -5,7 +5,13 @@ $password = 'password123';
 $dbname = 'world';
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-$stmt = $conn->query("SELECT * FROM countries");
+// Checks if country parameter is 'false' 
+$country = $_GET['country'];
+if ($country == "false") {
+  $country = "_";
+}
+
+$stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%';");
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
