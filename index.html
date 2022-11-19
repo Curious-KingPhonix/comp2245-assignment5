@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+		<title>World Database Lookup</title>
+		<link rel="icon" href="http://www.your-web-site-name.com/favicon.ico">
+		<link href="world.css" type="text/css" rel="stylesheet" />
+		<script src="world.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<header>
+			<div class="heading">
+				<img src="img/earth.png" alt="Globe with markers">
+				<h1>World Database Lookup</h1>
+			</div>
+		</header>
+		<main>
+			<div id="controls">
+				<!-- <label for="country">Country:</label> -->
+				<div class="search-box">
+					<input id="search" type="text" class="search-param" placeholder="e.g Jamacia">
+				</div>
+				<div class="search-controls">
+					<div class="check-slider">
+						<img src="img/globe.png" alt="" class="select">
+						<label class="switch">
+							<input name="query-type" id="query" type="checkbox" value="countries">
+							<span class="slider round"></span>
+						  </label>
+						<img src="img/architecture-and-city.png" alt="" class="select">
+						
+					</div>
+					<button id="lookup">Lookup</button>
+				</div>
+			</div>
+			<div id="result">
+				<!-- countries will appear here -->
+			</div>
+		</main>
+	</body>
+</html>
