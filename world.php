@@ -16,56 +16,61 @@ $dbname = 'world';
  */
 $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
 $table=$_GET['table'];
-$search=strip_tags($_GET['search']);
+$search=strip_tags($_GET['search']) . '%';
+if(empty($search)) $search = "_%";
 $sql_results;
-$sql_results = $conn->query("SELECT * FROM $table WHERE name LIKE '$search%';");
+if($table == 'countries') $sql_results = $conn->query("SELECT * FROM $table WHERE name LIKE '$search';");
+elseif($table =='cities')$sql_results = $conn->query("SELECT * FROM $table WHERE district LIKE '$search';");
 $sql_results = $sql_results->fetchAll(PDO::FETCH_ASSOC);
 ?>
-<caption>Search by <?=$table;?></caption>
+<?php if(!empty($sql_results)): ?>
+<html>
+<?php if($table == 'countries'): ?>
 <table>
-  <style>
-    table {
-    border: 1px solid #ccc;
-    border-collapse: collapse;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    table-layout: fixed;
-}  
-table tr {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: .35em;
-  }
-  
-  table th,
-  table td {
-    padding: .625em;
-    text-align: center;
-  }
-  
-  table th {
-    font-size: .85em;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-  </style>
-  <thead>
-    <tr>
-      <td>Country Name</td>
-      <td>Continent</td>
-      <td>Independence Year</td>
-      <td>Head of State</td>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ($sql_results as $row): ?>
-    <tr>
-      <td><?=$row['name']?></td>
-      <td><?=$row['continent']?></td>
-      <td><?=$row['independence_year']?></td>
-      <td><?=$row['head_of_state']?></td>
-    </tr>
-    <?php endforeach;?>
-  </tbody>
+<caption>Search by <?=$table;?></caption>
+<thead>
+  <tr>
+    <td>Country Name</td>
+    <td>Continent</td>
+    <td>Independence Year</td>
+    <td>Head of State</td>
+  </tr>
+</thead>
+<tbody>
+  <?php foreach ($sql_results as $row): ?>
+  <tr>
+    <td><?=$row['name']?></td>
+    <td><?=$row['continent']?></td>
+    <td><?=$row['independence_year']?></td>
+    <td><?=$row['head_of_state']?></td>
+  </tr>
+  <?php endforeach;?>
+</tbody>
 </table>
+<?php else: ?>
+  <table>
+<caption>Search by <?=$table;?></caption>
+<thead>
+  <tr>
+    <td>City Name</td>
+    <td>Country Code</td>
+    <td>District</td>
+    <td>Population</td>
+  </tr>
+</thead>
+<tbody>
+  <?php foreach ($sql_results as $row): ?>
+  <tr>
+    <td><?=$row['name']?></td>
+    <td><?=$row['country_code']?></td>
+    <td><?=$row['district']?></td>
+    <td><?=$row['population']?></td>
+  </tr>
+  <?php endforeach;?>
+</tbody>
+</table>
+<?php endif;?>
+</html>
+<?php else:?>
+<h1 style="align-self:center;">No Results</h1>
+<?php endif;?>

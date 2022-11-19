@@ -43,4 +43,7 @@ window.onload = (evt) => {
         httpRequest.open('GET',request_url)
         httpRequest.send(null)
     }
+    document.getElementById('search').onclick = (e) => {
+        
+    }
 }
